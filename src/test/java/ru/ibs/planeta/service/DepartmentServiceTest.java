@@ -21,6 +21,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.core.io.Resource;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.util.StreamUtils;
+import ru.ibs.planeta.feign.DepartmentClient;
 import ru.ibs.planeta.jpa.repo.DepartmentRepository;
 
 @SpringBootTest
@@ -37,6 +38,9 @@ public class DepartmentServiceTest {
     private  DepartmentService departmentService;
     @Autowired
     private DepartmentRepository departmentRepository;
+
+    @Autowired
+    DepartmentClient departmentClient;
 
     @Value("classpath:responses/departments.json")
     private Resource departmentsResource;
