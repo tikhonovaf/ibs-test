@@ -1,0 +1,17 @@
+logging:
+  level:
+    root: INFO
+loader:
+  cron: ${CRON:0 */5 * * * *}
+  departments-url: ${DEPARTMENTS_URL:http://prod.ibs.ru}
+  projects-url: ${PROJECTS_URL:http://prod.ibs.ru}
+spring:
+  datasource:
+    driver-class-name: org.h2.Driver
+    url: jdbc:h2:${DB_PATH:file:~/database}
+    username: ${DB-USER:sa}
+    password: ${DB_PASSWORD:}
+  jpa:
+    database-platform: org.hibernate.dialect.H2Dialect
+    hibernate:
+      ddl-auto: update

@@ -1,0 +1,88 @@
+{
+  "projects": [
+    {
+      "prj_id": 1000,
+      "dep_id": 1567,
+      "code": "PRJ_001_2025",
+      "name": "Проект 1 за 2025 год",
+      "active": true
+    },
+    {
+      "prj_id": 1100,
+      "dep_id": 1567,
+      "code": "PRJ_001_2024",
+      "name": "Проект 1 за 2024 год",
+      "active": true
+    },
+    {
+      "prj_id": 1101,
+      "dep_id": 1567,
+      "code": "PRJ_001_2023",
+      "name": "Проект 1 за 2023 год",
+      "active": false
+    },
+    {
+      "prj_id": 1001,
+      "dep_id": 1789,
+      "code": "PRJ_002",
+      "name": "Проект 2",
+      "active": true
+    },
+    {
+      "prj_id": 1002,
+      "dep_id": 1324,
+      "code": "PRJ_003",
+      "name": "Проект 3",
+      "active": true
+    },
+    {
+      "prj_id": 1003,
+      "dep_id": 1890,
+      "code": "PRJ_004",
+      "name": "Проект 4",
+      "active": true
+    },
+    {
+      "prj_id": 1004,
+      "dep_id": 1432,
+      "code": "PRJ_005",
+      "name": "Проект 5",
+      "active": true
+    },
+    {
+      "prj_id": 1005,
+      "dep_id": 1675,
+      "code": "PRJ_006",
+      "name": "Проект 6",
+      "active": true
+    },
+    {
+      "prj_id": 1006,
+      "dep_id": 1248,
+      "code": "PRJ_007",
+      "name": "Проект 7",
+      "active": true
+    },
+    {
+      "prj_id": 1007,
+      "dep_id": 1956,
+      "code": "PRJ_008",
+      "name": "Проект 8",
+      "active": true
+    },
+    {
+      "prj_id": 1008,
+      "dep_id": 1187,
+      "code": "PRJ_009",
+      "name": "Проект 9",
+      "active": true
+    },
+    {
+      "prj_id": 1009,
+      "dep_id": 1764,
+      "code": "PRJ_010",
+      "name": "Проект 10",
+      "active": true
+    }
+  ]
+}
