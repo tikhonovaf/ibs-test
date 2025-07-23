@@ -26,7 +26,6 @@ import ru.ibs.planeta.jpa.repo.DepartmentRepository;
 
 @SpringBootTest
 @AutoConfigureMockMvc
-//@ExtendWith(SpringExtension.class)
 @AutoConfigureWireMock(port = 4567)
 public class DepartmentServiceTest {
 
@@ -90,6 +89,7 @@ public class DepartmentServiceTest {
         WireMock.stubFor(get(urlEqualTo("/departments"))
                 .willReturn(okJson(loadMockResponse(resource))));
     }
+
     public String loadMockResponse(Resource resource) {
         try {
             return StreamUtils.copyToString(resource.getInputStream(), Charset.defaultCharset());
