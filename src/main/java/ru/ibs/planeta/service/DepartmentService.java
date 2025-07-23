@@ -57,7 +57,6 @@ public class DepartmentService {
         // 3. Удаляем их
         departmentRepository.deleteAll(toDelete);
 
-        // 4. Сохраняем загруженные данные
         departmentRepository.saveAll(
                 departments.getDepartments()
                         .stream()
