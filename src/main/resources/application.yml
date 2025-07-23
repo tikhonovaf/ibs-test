@@ -3,9 +3,11 @@ logging:
     root: INFO
 loader:
   cron: ${CRON:0 */5 * * * *}
-  departments-url: ${DEPARTMENTS_URL:http://prod.ibs.ru}
-  projects-url: ${PROJECTS_URL:http://prod.ibs.ru}
-spring:
+#  departments-url: ${DEPARTMENTS_URL:http://prod.ibs.ru}
+#  projects-url: ${PROJECTS_URL:http://prod.ibs.ru}
+  departments-url: "http://localhost:4567"
+  projects-url: "http://localhost:4567"
+  ring:
   datasource:
     driver-class-name: org.h2.Driver
     url: jdbc:h2:${DB_PATH:file:~/database}

@@ -14,6 +14,8 @@ public class Department {
     @Id
     @Column(name = "dep_id", nullable = false)
     private Long depId;
+    @Column(name = "prj_count")
+    private Long prjCount;
     private String code;
     private String name;
 }
