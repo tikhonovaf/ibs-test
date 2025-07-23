@@ -26,22 +26,19 @@ import ru.ibs.planeta.jpa.repo.DepartmentRepository;
 
 @SpringBootTest
 @AutoConfigureMockMvc
-@ExtendWith(SpringExtension.class)
+//@ExtendWith(SpringExtension.class)
 @AutoConfigureWireMock(port = 4567)
 public class DepartmentServiceTest {
 
-//    @RegisterExtension
-//    public static WireMockExtension wireMockRule = WireMockExtension.newInstance()
-//        .options(wireMockConfig().port(4567))
-//        .build();
+    private static final long UPDATED_DEPARTMENT_ID = 1789L;
+    private static final int INITIAL_DEPARTMENT_COUNT = 10;
+    private static final int DELETED_DEPARTMENT_COUNT = 7;
 
     @Autowired
     private DepartmentService departmentService;
     @Autowired
     private DepartmentRepository departmentRepository;
 
-    //    @Autowired
-//    DepartmentClient departmentClient;
     @Autowired
     private ProjectService projectService;
 
@@ -66,32 +63,33 @@ public class DepartmentServiceTest {
 
     @Test
     public void loadDepartments() throws IOException, ExecutionException, InterruptedException {
-//        departmentService.loadDepartments().get();
         //  Начальная загрузка
-        WireMock.stubFor(get(urlEqualTo("/departments"))
-                .willReturn(okJson(loadMockResponse(departmentsResourceInit))));
+        stubDepartmentsEndpoint(departmentsResourceInit);
         departmentService.loadDepartments().get();
-        Assertions.assertEquals(10, departmentRepository.findAll().size());
+        Assertions.assertEquals(INITIAL_DEPARTMENT_COUNT, departmentRepository.findAll().size());
 
         //  Загрузка с изменением
-        WireMock.stubFor(get(urlEqualTo("/departments"))
-                .willReturn(okJson(loadMockResponse(departmentsResourceUpdated))));
-        departmentService.loadDepartments().get();;
-        Assertions.assertTrue(departmentRepository.findById(1789l).orElse(null).getCode().contains("updated"));
+        stubDepartmentsEndpoint(departmentsResourceUpdated);
+        departmentService.loadDepartments().get();
+        Assertions.assertTrue(
+                departmentRepository.findById(UPDATED_DEPARTMENT_ID)
+                        .orElseThrow(() -> new AssertionError("Department not found"))
+                        .getCode()
+                        .contains("updated")
+        );
+
         //  Загрузка с удалением
+        stubDepartmentsEndpoint(departmentsResourceDeleted);
+        departmentService.loadDepartments().get();
+        ;
+        Assertions.assertEquals(DELETED_DEPARTMENT_COUNT, departmentRepository.findAll().size());
+
+    }
+
+    private void stubDepartmentsEndpoint(Resource resource) {
         WireMock.stubFor(get(urlEqualTo("/departments"))
-                .willReturn(okJson(loadMockResponse(departmentsResourceDeleted))));
-        departmentService.loadDepartments().get();;
-        Assertions.assertEquals(7, departmentRepository.findAll().size());
-
+                .willReturn(okJson(loadMockResponse(resource))));
     }
-
-    @Test
-    public void loadProjects() throws IOException, ExecutionException, InterruptedException {
-        var ps = projectService.loadProjects();
-
-    }
-
     public String loadMockResponse(Resource resource) {
         try {
             return StreamUtils.copyToString(resource.getInputStream(), Charset.defaultCharset());
@@ -99,5 +97,4 @@ public class DepartmentServiceTest {
             throw new RuntimeException(e);
         }
     }
-
 }
