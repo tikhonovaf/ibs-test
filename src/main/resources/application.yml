@@ -17,3 +17,20 @@ loader:
     database-platform: org.hibernate.dialect.H2Dialect
     hibernate:
       ddl-auto: update
+resilience4j:
+  circuitbreaker:
+    instances:
+      external-service:
+        registerHealthIndicator: true
+        slidingWindowType: COUNT_BASED
+        slidingWindowSize: 10
+        minimumNumberOfCalls: 5
+        permittedNumberOfCallsInHalfOpenState: 3
+        automaticTransitionFromOpenToHalfOpenEnabled: true
+        waitDurationInOpenState: 5s
+        failureRateThreshold: 50
+  retry:
+    instances:
+      external-service:
+        maxAttempts: 3
+        waitDuration: 100ms
