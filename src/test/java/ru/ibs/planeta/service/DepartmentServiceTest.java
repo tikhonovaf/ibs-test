@@ -20,6 +20,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.cloud.contract.wiremock.AutoConfigureWireMock;
 import org.springframework.core.io.Resource;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.util.StreamUtils;
 import ru.ibs.planeta.jpa.repo.DepartmentRepository;
@@ -27,6 +28,7 @@ import ru.ibs.planeta.jpa.repo.DepartmentRepository;
 @SpringBootTest
 @AutoConfigureMockMvc
 @AutoConfigureWireMock(port = 4567)
+@ActiveProfiles ("test")
 public class DepartmentServiceTest {
 
     private static final long UPDATED_DEPARTMENT_ID = 1789L;
