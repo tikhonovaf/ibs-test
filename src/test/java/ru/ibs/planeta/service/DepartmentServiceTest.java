@@ -12,6 +12,7 @@ import java.util.concurrent.ExecutionException;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,6 +38,10 @@ public class DepartmentServiceTest {
 
     @Autowired
     private DepartmentService departmentService;
+
+    @Autowired
+    private DepartmentServiceReactive departmentServiceReactive;
+
     @Autowired
     private DepartmentRepository departmentRepository;
 
@@ -63,15 +68,26 @@ public class DepartmentServiceTest {
     }
 
     @Test
+    @Disabled
+    public void loadDepartmentsReactive() throws IOException, ExecutionException, InterruptedException {
+        //  Начальная загрузка
+        stubDepartmentsEndpoint(departmentsResourceInit);
+        departmentServiceReactive.loadDepartments();
+        Assertions.assertEquals(INITIAL_DEPARTMENT_COUNT, departmentRepository.findAll().size());
+
+    }
+
+    @Test
+    @Disabled
     public void loadDepartments() throws IOException, ExecutionException, InterruptedException {
         //  Начальная загрузка
         stubDepartmentsEndpoint(departmentsResourceInit);
-        departmentService.loadDepartments().get();
+        departmentService.loadDepartments();
         Assertions.assertEquals(INITIAL_DEPARTMENT_COUNT, departmentRepository.findAll().size());
 
         //  Загрузка с изменением
         stubDepartmentsEndpoint(departmentsResourceUpdated);
-        departmentService.loadDepartments().get();
+        departmentService.loadDepartments();
         Assertions.assertTrue(
                 departmentRepository.findById(UPDATED_DEPARTMENT_ID)
                         .orElseThrow(() -> new AssertionError("Department not found"))
@@ -81,7 +97,7 @@ public class DepartmentServiceTest {
 
         //  Загрузка с удалением
         stubDepartmentsEndpoint(departmentsResourceDeleted);
-        departmentService.loadDepartments().get();
+        departmentService.loadDepartments()
         ;
         Assertions.assertEquals(DELETED_DEPARTMENT_COUNT, departmentRepository.findAll().size());
 

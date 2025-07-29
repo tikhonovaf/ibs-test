@@ -7,7 +7,7 @@ import org.springframework.web.reactive.function.client.WebClient;
 
 @Configuration
 public class WebClientExchangeConfig {
-    @Value("${api.base-url}")
+    @Value("${loader.departments-url}")
     private String baseUrl;
 
     @Bean
@@ -17,6 +17,4 @@ public class WebClientExchangeConfig {
                 .defaultHeader("Accept", "application/json")
                 .build();
     }
-
-
 }

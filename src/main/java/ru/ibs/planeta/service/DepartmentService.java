@@ -31,7 +31,7 @@ public class DepartmentService {
 
     //    @Async
     @Scheduled(cron = "${loader.cron}")
-    public CompletableFuture<Integer> loadDepartments() {
+    public void loadDepartments() {
 //    public void loadDepartments() {
         log.info("Start loading departments");
         System.out.println("Scheduled task running in thread: " + Thread.currentThread().getName());
@@ -66,7 +66,7 @@ public class DepartmentService {
         );
 
         log.info("End loading departments: {}", departments.getDepartments().size());
-        return CompletableFuture.completedFuture(departments.getDepartments().size());
+//        return CompletableFuture.completedFuture(departments.getDepartments().size());
 
     }
 }

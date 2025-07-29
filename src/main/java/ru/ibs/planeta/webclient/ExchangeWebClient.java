@@ -14,7 +14,6 @@ import ru.ibs.planeta.model.dto.ProjectsResponseDto;
 @RequiredArgsConstructor
 public class ExchangeWebClient {
 
-    @Qualifier("webClientExchange")
     private final WebClient webClient;
 
     public Mono<DepartmentsResponseDto> getDepartments() {
