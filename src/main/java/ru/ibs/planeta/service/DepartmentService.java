@@ -34,7 +34,7 @@ public class DepartmentService {
     public CompletableFuture<Integer> loadDepartments() {
 //    public void loadDepartments() {
         log.info("Start loading departments");
-        System.out.println("Scheduled task running in thread: " + Thread.currentThread().getName());
+        System.out.println("Loading departments. Scheduled task running in thread: " + Thread.currentThread().getName());
 
 
 //        List <ProjectDto>  projects = projectService.loadProjects();

@@ -1,8 +1,9 @@
 package ru.ibs.planeta.service;
 
-import static com.github.tomakehurst.wiremock.client.WireMock.get;
-import static com.github.tomakehurst.wiremock.client.WireMock.okJson;
-import static com.github.tomakehurst.wiremock.client.WireMock.urlEqualTo;
+import static com.github.tomakehurst.wiremock.client.WireMock.*;
+//import static com.github.tomakehurst.wiremock.client.WireMock.okJson;
+//import static com.github.tomakehurst.wiremock.client.WireMock.urlEqualTo;
+import static com.github.tomakehurst.wiremock.stubbing.Scenario.STARTED;
 
 import com.github.tomakehurst.wiremock.client.WireMock;
 
@@ -82,6 +83,44 @@ public class DepartmentServiceTest {
         departmentService.loadDepartments().get();
         ;
         Assertions.assertEquals(DELETED_DEPARTMENT_COUNT, departmentRepository.findAll().size());
+
+    }
+
+    @Test
+    public void loadDepartmentsRetry() throws IOException, ExecutionException, InterruptedException {
+        // Given   Настраиваем WireMock - первые 2 запроса вернут 500, третий - успешный
+        WireMock.stubFor(get(urlEqualTo("/departments"))
+                .inScenario("Retry Scenario")
+                .whenScenarioStateIs(STARTED)
+                .willReturn(aResponse().withStatus(500))
+                .willSetStateTo("SECOND_ATTEMPT"));
+
+        WireMock.stubFor(get(urlEqualTo("/departments"))
+                .inScenario("Retry Scenario")
+                .whenScenarioStateIs("SECOND_ATTEMPT")
+                .willReturn(aResponse().withStatus(503))
+                .willSetStateTo("THIRD_ATTEMPT"));
+
+        WireMock.stubFor(get(urlEqualTo("/departments"))
+                .inScenario("Retry Scenario")
+                .whenScenarioStateIs("THIRD_ATTEMPT")
+                .willReturn(okJson(loadMockResponse(departmentsResourceInit))));
+
+        //                .willReturn(aResponse()
+//                        .withStatus(200)
+//                        .withHeader("Content-Type", "text/plain")
+//                        .withBody("Success")));
+//
+
+       // When - Вызываем тестируемый сервис
+
+        departmentService.loadDepartments().get();
+
+        // Then
+        // Проверяем, что было 3 запроса ранее  + 5 запроса в этом тесте
+        WireMock.verify(6, getRequestedFor(urlEqualTo("/departments")));
+        // Проверяем, что все загрузилось
+        Assertions.assertEquals(INITIAL_DEPARTMENT_COUNT, departmentRepository.findAll().size());
 
     }
 

@@ -32,5 +32,8 @@ resilience4j:
   retry:
     instances:
       external-service:
-        maxAttempts: 3
+        maxAttempts: 4
         waitDuration: 100ms
+        retryExceptions:
+         - feign.RetryableException
+         - feign.FeignException  # например, для 503

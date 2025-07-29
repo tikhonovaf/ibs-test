@@ -10,12 +10,12 @@ import ru.ibs.planeta.model.dto.ProjectsResponseDto;
 @FeignClient(name = "external-service", url = "${loader.departments-url}")
 public interface ExchangeClient {
 
-    @CircuitBreaker(name = "external-service")
+//    @CircuitBreaker(name = "external-service")
     @Retry(name = "external-service")
     @GetMapping("/departments")
     DepartmentsResponseDto getDepartments();
 
-    @CircuitBreaker(name = "external-service")
+//    @CircuitBreaker(name = "external-service")
     @Retry(name = "external-service")
     @GetMapping("/projects")
     ProjectsResponseDto getProjects();
