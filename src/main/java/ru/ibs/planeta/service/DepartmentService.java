@@ -45,6 +45,9 @@ public class DepartmentService {
                 .collect(Collectors.groupingBy(ProjectDto::getDepId, Collectors.counting()));
 
         final DepartmentsResponseDto departments = exchangeClient.getDepartments();
+        if (departments == null) {
+            return  CompletableFuture.completedFuture(0);
+        }
 
         // 1. Получаем все DepId из загруженного списка подразделений
         Set<Long> newDepIds = departments.getDepartments().stream()

@@ -32,8 +32,10 @@ resilience4j:
   retry:
     instances:
       external-service:
-        maxAttempts: 4
+        maxAttempts: 3
         waitDuration: 100ms
+        enableExponentialBackoff: true  # включить экспоненциальный рост
+        exponentialBackoffMultiplier: 2  # множитель (каждый раз задержка умножается на 2)
         retryExceptions:
          - feign.RetryableException
          - feign.FeignException  # например, для 503

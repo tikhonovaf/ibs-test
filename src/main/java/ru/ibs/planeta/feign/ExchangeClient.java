@@ -7,11 +7,17 @@ import org.springframework.web.bind.annotation.GetMapping;
 import ru.ibs.planeta.model.dto.DepartmentsResponseDto;
 import ru.ibs.planeta.model.dto.ProjectsResponseDto;
 
-@FeignClient(name = "external-service", url = "${loader.departments-url}")
+import java.util.Collections;
+
+@FeignClient(
+        name = "external-service",
+        url = "${loader.departments-url}"
+//        fallback = ExchangeClientFallback.class  // Указываем класс с fallback-логикой)
+)
 public interface ExchangeClient {
 
 //    @CircuitBreaker(name = "external-service")
-    @Retry(name = "external-service")
+    @Retry(name = "external-service",  fallbackMethod = "getDepartmentsFallback")
     @GetMapping("/departments")
     DepartmentsResponseDto getDepartments();
 
@@ -19,5 +25,11 @@ public interface ExchangeClient {
     @Retry(name = "external-service")
     @GetMapping("/projects")
     ProjectsResponseDto getProjects();
+
+    default DepartmentsResponseDto getDepartmentsFallback(Exception ex) {
+        // Логика fallback (например, возвращаем пустой ответ)
+        return null;
+//        return new DepartmentsResponseDto();
+    }
 
 }
