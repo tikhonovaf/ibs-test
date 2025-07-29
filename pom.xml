@@ -11,7 +11,7 @@
     </parent>
 
     <groupId>ru.ibs.planeta</groupId>
-    <artifactId>challenge1</artifactId>
+    <artifactId>ibs-test-feign</artifactId>
     <version>1.0-SNAPSHOT</version>
 
     <properties>
@@ -69,12 +69,6 @@
             <version>${lombok-mapstruct-binding.version}</version>
         </dependency>
 
-<!--        <dependency>-->
-<!--            <groupId>javax.persistence</groupId>-->
-<!--            <artifactId>javax.persistence-api</artifactId>-->
-<!--            <version>2.2</version>-->
-<!--        </dependency>-->
-
         <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-contract-stub-runner</artifactId>
@@ -120,11 +114,17 @@
             <artifactId>resilience4j-timelimiter</artifactId>
             <version>2.1.0</version>
         </dependency>
+        <!-- Для Spring Boot Actuator -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-actuator</artifactId>
         </dependency>
-    </dependencies>
+
+        <!-- Для экспорта метрик в Prometheus -->
+        <dependency>
+            <groupId>io.micrometer</groupId>
+            <artifactId>micrometer-registry-prometheus</artifactId>
+        </dependency>    </dependencies>
 
     <build>
         <plugins>
